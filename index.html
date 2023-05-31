@@ -972,32 +972,6 @@
       var countries = document.querySelectorAll("g");
       var currentCountry = null;
 
-countries.forEach(function(country) {
-  var countryName = country.getAttribute("name");
-  country.addEventListener("mouseover", function(event) {
-    // Check if the cursor has moved over a new country
-    if (countryName !== currentCountry) {
-      // Update the currentCountry variable
-      currentCountry = countryName;
-      // Get the position of the cursor
-      var x = event.clientX;
-      var y = event.clientY;
-      // Set the position of the countryNameElement
-      countryNameElement.style.left = x + 20 + 'px';
-      countryNameElement.style.top = y + 'px';
-    }
-    // Show the countryNameElement
-    countryNameElement.style.display = 'block';
-    // Set the text content of the countryNameElement
-    countryNameElement.textContent = countryName;
-  });
-  country.addEventListener("mouseout", function() {
-    // Hide the countryNameElement
-    countryNameElement.style.display = 'none';
-  });
-});
-
-
 // Displaying Download Available or Download Unavailabe Depending on the Download Link
 var downloadLinkElement = document.querySelector("#download-link");
 var downloadLinks = {
@@ -1033,10 +1007,30 @@ fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePat
 var currentCountry = null;
 
 countries.forEach(function(country) {
+
+  // Status
+  // Create an object to store the mapping between country names and status values
+  var countryStatuses = {};
+
+  // Loop through the csvData array
+  csvData.forEach(function(row) {
+
+  // Get the country name and status value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var status = row["Status"];
+
+  // Add the country name and status value to the countryStatuses object
+  countryStatuses[countryName] = status;
+  });
+
   var countryName = country.getAttribute("name");
   var downloadLink = downloadLinks[countryName];
-  if (downloadLink) {
+  var status = countryStatuses[countryName];
+  if (countryName === "United States" || countryName === "Europe" || status === "Publiziert") {
     country.classList.add("available");
+  }
+  if (status === "Eingereicht") {
+    country.classList.add("available_soon");
   }
 
   country.addEventListener("mouseover", function(event) {
@@ -1053,17 +1047,87 @@ countries.forEach(function(country) {
     }
     // Show the countryNameElement
     countryNameElement.style.display = 'block';
-    // Set the text content of the countryNameElement
     if (downloadLink) {
-      countryNameElement.innerHTML = countryName + '<br>Data Available';
+  if (countryYears.hasOwnProperty(countryName)) {
+    // If the country is present in all objects, display its name, availability, years value, code version, and code specification
+    if (country.classList.contains("available_soon")) {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available Soon<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
     } else {
-      countryNameElement.innerHTML = countryName + '<br>Data Unavailable';
+      countryNameElement.innerHTML = `${countryName}<br>Data Available<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
     }
-  });
-  country.addEventListener("mouseout", function() {
-    // Hide the countryNameElement
-    countryNameElement.style.display = 'none';
-  });
+  } else {
+    // If the country is not present in any of the objects, only display its name and availability
+    if (country.classList.contains("available_soon")) {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available Soon`;
+    } else {
+      countryNameElement.innerHTML = `${countryName}<br>Data Available`;
+    }
+  }
+} else {
+  if (countryYears.hasOwnProperty(countryName)) {
+    // If the country is present in all objects except downloadLinks, display its name, years value, code version, and code specification
+    countryNameElement.innerHTML = `${countryName}<br>Years: ${countryYears[countryName]}<br>Code Version: ${countryCodeVersions[countryName]}<br>Code Specification: ${countryCodeSpecifications[countryName]}`;
+  } else {
+    // If the country is not present in any of the objects, only display its name
+    countryNameElement.innerHTML = countryName + '<br>Data Unavailable';
+  }
+}
+
+});
+
+// Code Years
+// Create an object to store the mapping between country names and years
+var countryYears = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and years value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var years = row["Years"];
+
+  // Add the country name and years value to the countryYears object
+  countryYears[countryName] = years;
+});
+
+
+// Code Versions
+// Create an object to store the mapping between country names and code versions
+var countryCodeVersions = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and code version value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var codeVersion = row["Code Version"];
+
+  // Add the country name and code version value to the countryCodeVersions object
+  countryCodeVersions[countryName] = codeVersion;
+});
+
+
+// Code Specifications
+// Create an object to store the mapping between country names and code specifications
+var countryCodeSpecifications = {};
+
+// Loop through the csvData array
+csvData.forEach(function(row) {
+  // Get the country name and code specification value from the current row
+  var countryName = row["ï»¿Country/Region"];
+  var codeSpecification = row["Code Specification"];
+
+  // Add the country name and code specification value to the countryCodeSpecifications object
+  countryCodeSpecifications[countryName] = codeSpecification;
+});
+
+
+// Set the text content of the countryNameElement
+if (countryYears.hasOwnProperty(countryName)) {
+  // If the country is present in the countryYears object, display its name and years value
+  countryNameElement.textContent = `${countryName}: ${countryYears[countryName]}`;
+} else {
+  // If the country is not present in the countryYears object, only display its name
+  countryNameElement.textContent = countryName;
+}
 });
 
 //Downloading the Data
@@ -1078,7 +1142,6 @@ countries.forEach(function(country) {
     }
   });
 });
-
 
 
      // Add a class to all g elements with the same name attribute on mouseover
