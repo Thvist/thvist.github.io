@@ -1538,21 +1538,19 @@ observer.observe(parentElement, { childList: true });
 <button id="loadData">Load Data</button>
 <div id="data"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 document.getElementById("loadData").addEventListener("click", function() {
-    fetch('<https://raw.githubusercontent.com/Thvist/thvist.github.io/main/DOI_List_SWISSUbase.csv>')
+    axios.get('<https://raw.githubusercontent.com/Thvist/thvist.github.io/main/DOI_List_SWISSUbase.csv>')
         .then(response => {
-            if (response.ok) {
-                document.getElementById("data").innerHTML = "CSV file loaded successfully!";
-            } else {
-                document.getElementById("data").innerHTML = "Error loading CSV file: " + response.status;
-            }
+            document.getElementById("data").innerHTML = "CSV file loaded successfully!";
         })
         .catch(error => {
             document.getElementById("data").innerHTML = "Error loading CSV file: " + error;
         });
 });
 </script>
+
 
 
 
