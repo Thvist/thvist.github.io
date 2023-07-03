@@ -1,74 +1,26 @@
 /* ----- style.css ----- */
-
-/* Defines the font of the header*/
-h1 {
-	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+* {
+	margin: 0; 
+	padding: 0; 
 }
-
-/* Defines the colour of the SVG elements and properties about it's outline*/
+body {
+	background-color: #01171b;
+}
 svg path {
 	fill: #6f6f6f;
 	stroke: #eee;
 	stroke-width: .25;
 }
 
-/* The background colour of the whole website*/
-body {
-	background-color: rgb(246, 246, 241);
-  }
 
-/* Colouring in all countries with the class available*/
-.available path{
-	fill: rgb(69, 129, 69);
-  }
-
-/* Changing the colour of all countries with the class available when hovering over it*/
-.available:hover path {
-	fill: darkgreen;
-	transition: 0.6s;
-	cursor: pointer;
-  }
-
-/* Colouring in all countries with the class available_soon*/
-.available_soon path{
-	fill: rgb(136, 167, 125);
-  }
-
-/* Changing the colour of all countries with the class available_soon when hovering over it*/
-.available_soon:hover path {
-	fill: #6f6f6f;
-	transition: 0.6s;
-	cursor: pointer;
-  }
-
-
-  #country-name {
-	position: absolute;
-	display: none; /* Change display property to block */
-	background-color: white;
-	border: 1px solid rgb(0, 0, 0);
-	padding: 5px;
-	font-family: 'Times New Roman', Times, serif;
-	z-index: +10;
-	max-width: 100%; /* Add max-width property */
-	max-height: 100%; /* Add max-height property */
-	overflow: auto; /* Add overflow property */
+h1 {
+	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.available path{
+	fill: rgb(69, 129, 69);
+  }
 
 /* Set the stroke color of the path elements within the Europe elements to the same color as their fill color */
 g[name="Europe"] path {
@@ -79,8 +31,23 @@ g[name="Europe"] path {
 g[name="Europe"] path {
 	stroke-width: 2;
   }
+	
 
+  .available:hover path {
+	fill: darkgreen;
+	transition: 0.6s;
+	cursor: pointer;
+  }
 
+  .available_soon path{
+	fill: rgb(136, 167, 125);
+  }
+
+.available_soon:hover path {
+	fill: rgb(117, 117, 117);
+	transition: 0.6s;
+	cursor: pointer;
+  }
   
 /* Set the stroke color of all the path elements within the Europe elements to darkgreen when their parent svg element has the hover class */
 svg.hover g[name="Europe"] path {
@@ -92,7 +59,6 @@ svg.hover g[name="Europe"] path {
     fill: rgb(69, 129, 69);
 }
 
-/* Managing the highlight colour of countries hovered over on the world */
 .highlight path {
   fill: darkgreen;
   transition: 0.6s;
@@ -100,23 +66,36 @@ svg.hover g[name="Europe"] path {
 }
 
 
+#tooltip {
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+}
+
 .back-button {
 	/* Add your styles here */
-	position: fixed;
-	top: 20px;
-	left: 20px;
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	/* ... */
 	background-color: white;
-	border: 1px solid black;
-	padding: 5px;
-	font-family: 'Times New Roman', Times, serif; /* Set the font family */
-	font-size: 19px; /* 17 */
-  }
-  
+  	border: 1px solid black;
+  	padding: 5px;
+	font-family: 'Times New Roman', Times, serif;; /* Set the font family */
+	font-size: 17px; /* Increase the font size */
+}
 
 .back-button:hover {
 	background-color: lightgrey;
 }
 
+  
+
+/* The background colour of the whole website*/
+body {
+	background-color: rgb(246, 246, 241);
+  }
 
 /* The colour of the title*/
 h1 {
@@ -131,6 +110,19 @@ h1 {
 	width: 95%;
 	border: 0px solid rgb(39, 28, 19);
 	border-radius: 10px;
+	
+  }
+
+
+/* How the country name should be displayed */
+
+  #country-name {
+	position: absolute;
+	display: none;
+	background-color: white;
+	border: 1px solid black;
+	padding: 5px;
+	font-family: 'Times New Roman', Times, serif; /* Set the font family */
 	
   }
 
@@ -160,12 +152,12 @@ h1 {
 
   .europe-map {
 	width: 1300px;
-	height: 670px; /*750*/
+	height: 750px;
   }
   
   .us-map {
 	width: 1000px;
-	height: 570px;
+	height: 650px;
   }
   
 
@@ -201,65 +193,4 @@ h1 {
 	transition: 0.6s;
 	cursor: pointer;
    }
-
-body {
-overflow-y: hidden;
-  }
    
-
-
-/* CSS */
-.box {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px;
-  transition: opacity 0.5s;
-}
-
-    
-  .color-box-container {
-	display: flex;
-	align-items: center;
-	margin-bottom: 5px;
-  }
-  
-  .color-box-container:last-child {
-	margin-bottom: 0;
-  }
-  
-  .color-box {
-	width: 20px;
-	height: 20px;
-	border: 1px solid black;
-	margin-right: 10px;
-  }
-
-  .dark-grey {
-	background-color: #6f6f6f;
-  }
-  
-  .green {
-	background-color: rgb(136, 167, 125);
-  }
-  
-  .dark-green {
-  	background-color: darkgreen;
-  }
-
-  .box p {
-	line-height: 0.1;
-	white-space: nowrap;
-	
-	  
-  }
-  
-  
-  
-
-
-  
-  
